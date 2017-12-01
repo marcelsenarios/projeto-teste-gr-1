@@ -120,7 +120,6 @@
 	<?php require_once 'include/footer.php'; ?>
 	<!-- FIM FOOTER -->
 
-
-	<script src="js/main.js"></script>
+	
 </body>
 </html>

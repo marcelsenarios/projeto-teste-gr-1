@@ -1,5 +1,7 @@
 <?php
 
+require_once "include/db.php";
+
 // echo '<pre>';
 // 	print_r($_POST);
 // echo '</pre>';
@@ -9,7 +11,7 @@ $nome 		 = $_POST['nome'];
 $email 		 = $_POST['email'];
 $idade 		 = $_POST['idade'];
 $sexo 		 = $_POST['sexo'];
-$time  		 = $_POST['time'];
+$idTime  	 = $_POST['time'];
 $cores       = $_POST['cores'];
 $observacoes = $_POST['observacoes'];
 $foto        = $_POST['foto'];
@@ -17,6 +19,99 @@ $foto        = $_POST['foto'];
 
 
 //$_POST = array("nome" => "Marcel", "email" => "email@email.com", "idade" => "50", "sexo" => "M");
+
+
+
+
+
+/**/
+
+
+
+$idUsuario = insereUsuario($nome, $mail, $idade, $sexo, $observacoes);
+
+
+
+if($idUsuario) {
+
+	$insertTime = insereRefUsuarioTime($idUsuario, $idTime);
+
+	//$insertCor = insereRefUsuarioCor($nome, $mail, $idade, $sexo, $observacoes);
+
+	$insertFoto = insereUsuarioFoto($foto);
+
+} else {
+	echo 'Erro';
+}
+
+
+
+
+
+function insereUsuario($nome, $email, $idade, $sexo, $observacoes) {
+
+	$sql = "INSERT INTO usuario (nome, email, idade, sexo, observacoes)
+				   VALUES ('$nome', '$email', '$idade', '$sexo', '$observacoes')	
+				   ";
+
+	$result = mysql_query($sql);
+
+	return mysql_insert_id();			   
+
+}
+
+
+
+function insereRefUsuarioTime($idUsuario, $idTime) {
+
+	$sql = "INSERT INTO usuario_ref_time (idUsuario, idTime)
+				   VALUES ('$idUsuario', '$idTime')	
+				   ";
+
+	$result = mysql_query($sql);
+
+	return mysql_insert_id();			   
+
+}
+
+/*
+function insereRefUsuarioCor($nome, $mail, $idade, $sexo, $observacoes) {
+
+	$sql = "INSERT INTO usuario (nome, email, idade, sexo, observacoes)
+				   VALUES ('$nome', '$email', '$idade', '$sexo', 'observacoes')	
+				   ";
+
+	$result = mysql_query($sql);
+
+	return mysql_insert_id();			   
+
+}
+*/
+
+function insereUsuarioFoto($foto) {
+
+	$sql = "INSERT INTO usuario_foto (foto)
+				   VALUES ('$foto')	
+				   ";
+
+	$result = mysql_query($sql);
+
+	return mysql_insert_id();			   
+
+}
+
+
+/**/
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -135,7 +230,7 @@ for($x = 0; $x <= count($cores); $x++ ) {
 				 echo "<hr>";
 				 echo "Sexo: ".retornaNomeSexo($sexo); 
 				 echo "<hr>";
-				 echo "Time: ".retornaNomeTime($time); 
+				 echo "Time: ".retornaNomeTime($idTime); 
 				 echo "<hr>";		
 				 echo "Cores: ".$nomeCor; 
 				 echo "<hr>";

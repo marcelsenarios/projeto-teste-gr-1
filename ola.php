@@ -28,7 +28,7 @@ $foto        = $_POST['foto'];
 
 
 
-$idUsuario = insereUsuario($nome, $mail, $idade, $sexo, $observacoes);
+$idUsuario = insereUsuario($nome, $email, $idade, $sexo, $observacoes);
 
 
 
@@ -36,9 +36,12 @@ if($idUsuario) {
 
 	$insertTime = insereRefUsuarioTime($idUsuario, $idTime);
 
-	//$insertCor = insereRefUsuarioCor($nome, $mail, $idade, $sexo, $observacoes);
 
-	$insertFoto = insereUsuarioFoto($foto);
+	foreach ($cores as $idCor) {
+		$insertCor = insereRefUsuarioCor($idUsuario, $idCor);
+	}
+
+	$insertFoto = insereUsuarioFoto($idUsuario, $foto);
 
 } else {
 	echo 'Erro';
@@ -74,11 +77,10 @@ function insereRefUsuarioTime($idUsuario, $idTime) {
 
 }
 
-/*
-function insereRefUsuarioCor($nome, $mail, $idade, $sexo, $observacoes) {
+function insereRefUsuarioCor($idUsuario, $idCor) {
 
-	$sql = "INSERT INTO usuario (nome, email, idade, sexo, observacoes)
-				   VALUES ('$nome', '$email', '$idade', '$sexo', 'observacoes')	
+	$sql = "INSERT INTO usuario_ref_cor (idUsuario, idCor)
+				   VALUES ('$idUsuario', '$idCor')	
 				   ";
 
 	$result = mysql_query($sql);
@@ -86,12 +88,12 @@ function insereRefUsuarioCor($nome, $mail, $idade, $sexo, $observacoes) {
 	return mysql_insert_id();			   
 
 }
-*/
 
-function insereUsuarioFoto($foto) {
 
-	$sql = "INSERT INTO usuario_foto (foto)
-				   VALUES ('$foto')	
+function insereUsuarioFoto($idUsuario, $foto) {
+
+	$sql = "INSERT INTO usuario_foto (idUsuario, foto)
+				   VALUES ('$idUsuario', '$foto')	
 				   ";
 
 	$result = mysql_query($sql);
